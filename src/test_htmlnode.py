@@ -17,10 +17,9 @@ class TestHTMLNode(unittest.TestCase):
 
     def test_prints(self):
         testList = ["one","two","three"]
-        testDict = {"href": "https://www.google.com", "target" : "_blank"}
+        testDict = {"class": "text", "target" : "_blank"}
         node = HTMLNode("p", "contents here", testList, testDict)
-        #actualRepr = repr(node)
-        assert repr(node) == "HTMLNode(p, contents here, ['one', 'two', 'three'], {'href': 'https://www.google.com', 'target': '_blank'})"
+        assert repr(node) == "HTMLNode(p, contents here, ['one', 'two', 'three'], {'class': 'text', 'target': '_blank'})"
        
 
 class TestLeafNode(unittest.TestCase):
@@ -37,7 +36,6 @@ class TestLeafNode(unittest.TestCase):
         
     def test_noTag(self):
         node = LeafNode(None,"Value",None)
-        print(node.to_html())
         assert node.to_html() == f"Value"
 
 

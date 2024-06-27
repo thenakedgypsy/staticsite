@@ -10,8 +10,6 @@ class HTMLNode():
             self.props = dict()
         else:
             self.props = props
-        
-    this = {"href": "https://www.google.com", "target": "_blank"}
 
     def to_html(self):
         raise NotImplementedError()
