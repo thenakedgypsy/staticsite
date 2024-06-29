@@ -79,5 +79,6 @@ class TestParentNode(unittest.TestCase):
         with self.assertRaises(ValueError):
             node = ParentNode(None,None,)
 
+
 if __name__ == "__main__":
     unittest.main()

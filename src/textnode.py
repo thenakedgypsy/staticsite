@@ -1,6 +1,6 @@
 class TextNode():
 
-    def __init__(self, content, type, url=None, alt=None):
+    def __init__(self, content, type=None, url=None, alt=None):
         self.text = content
         self.textType = type
         self.url = url
@@ -13,4 +13,13 @@ class TextNode():
             return False
 
     def __repr__(self):
-        return f"TextNode({self.text},{self.textType},{self.url},{self.alt})"
+        returnString = f"TextNode({self.text}"
+        if self.textType != None or self.textType != "":
+            returnString += f", {self.textType}"
+        if self.url != None:
+            returnString += f", {self.url}"
+        if self.alt != None:
+            returnString += f", {self.alt}"
+        returnString += f")"
+        return returnString
+        #return f"TextNode({self.text},{self.textType},{self.url},{self.alt})"
