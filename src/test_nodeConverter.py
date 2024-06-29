@@ -84,7 +84,21 @@ class TestNodeConverter(unittest.TestCase):
             TextNode(" inside of it", "text"),]
         for node in secondNewNodes:
             print(node)
-        assert secondNewNodes == expectedNodes         
+        assert secondNewNodes == expectedNodes
+        
+    def test_splitDelimDoubleParseSingle(self):
+        textNode1 = TextNode("Words words **bold words** words words but also some *italic words* yay!")
+        oldNodes = [textNode1]
+        converter = NodeConverter() 
+        firstNewNodes = converter.split_nodes_delimiter(oldNodes,"**", "bold")
+        secondNewNodes = converter.split_nodes_delimiter(firstNewNodes, "*", "italic")
+        expectedNodes = [
+            TextNode("Words words ", "text"),
+            TextNode("bold words", "bold"),
+            TextNode(" words words but also some ", "text"),            
+            TextNode("italic words", "italic"),
+            TextNode(" yay!", "text")]
+        assert secondNewNodes == expectedNodes                 
 
 
 if __name__ == "__main__":

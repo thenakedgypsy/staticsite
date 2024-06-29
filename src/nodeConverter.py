@@ -1,9 +1,9 @@
 from htmlnode import HTMLNode, LeafNode, ParentNode
 from textnode import TextNode
 
-class NodeConverter: # converter class - converts textnodes to htmlnodes
+class NodeConverter: # converter class - converts nodes
     
-    def text_node_to_html_node(self, textNode):
+    def text_node_to_html_node(self, textNode):  #converts textNodes to htmlnodes
         if isinstance(textNode, TextNode):
             nodeType = textNode.textType
             value = textNode.text
@@ -24,12 +24,14 @@ class NodeConverter: # converter class - converts textnodes to htmlnodes
         else:
             raise AttributeError("Must be a TextNode object")
 
-    def split_nodes_delimiter(self, oldNodes, delimiter,textType):
+    def split_nodes_delimiter(self, oldNodes, delimiter, textType): #splits textnodes into other textnodes based on delimiter
         newNodes = []
         for node in oldNodes: #for each node check for the delim and split
             if delimiter == "" or delimiter == None:
                 newNodes.append(TextNode(node.text),"text")
-            else:
+            elif node.textType == "bold" or node.textType == "italic" or node.textType == "code": #check if this node has already been passed over
+                newNodes.append(node)            
+            else:               #otherwise split at delim and add type
                 splitNode = node.text.split(delimiter)
                 i = 1
                 for part in splitNode:
