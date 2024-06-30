@@ -42,27 +42,23 @@ class NodeConverter: # converter class - converts nodes
                         newNodes.append(TextNode(part, "text"))
                     i += 1
         return newNodes
-
+        
     def split_nodes_links(old_nodes):
         linkExtractor = LinkExtractor
         newNodes = []
         for node in old_nodes:
             splitNode = linkExtractor.extract_markdown_links_split(node.text)
-            print(splitNode)
-            i = 1
-            wantedi = 1
-            for part in splitNode:
-                if i == wantedi:
-                    wantedi += 3
-                    if part != "":
-                        newNodes.append(TextNode(part,"text"))
-                    if i+1 > len(splitNode):
-                        break
-                    newNodes.append(TextNode(splitNode[i],"link", splitNode[i+1]))
-                    i +=1
+            i = 0
+            partCount = len(splitNode)                            
+            while i < partCount:                
+                if splitNode[i]:
+                    if splitNode[i] != "":
+                        newNodes.append(TextNode(splitNode[i],"text"))
+                if i + 2 < partCount:
+                    newNodes.append(TextNode(splitNode[i+1],"link", splitNode[i+2]))
+                    i +=3
                 else:
-                    i +=1
-                
+                    i +=1                
             return newNodes
                     
     def split_nodes_images(old_nodes):

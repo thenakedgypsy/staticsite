@@ -112,7 +112,7 @@ class TestNodeConverter(unittest.TestCase):
         ]
         assert newNodes == expectedNodes
 
-    def test_splitLink(self):
+    def test_splitLinkStart(self):
         nodeList = [TextNode("[link](https://www.example.com) and [another](https://www.example.com/another) and [oneMore](https://site.com)", "text")]
         converter = NodeConverter
         newNodes = converter.split_nodes_links(nodeList)
