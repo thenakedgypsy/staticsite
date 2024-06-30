@@ -20,6 +20,11 @@ class TestLinkExtractor(unittest.TestCase):
         expectedList = [('link', 'https://www.example.com'), ('another', 'https://www.example.com/another'),('oneMore','https://site.com')]
         assert linkExtractor.extract_markdown_links(text) == expectedList
 
+    def test_extractLinksThree(self):
+        linkExtractor = LinkExtractor
+        text = "This is text with a [link](https://www.example.com) and [another](https://www.example.com/another) and [oneMore](https://site.com)"
+        expectedList = [('link', 'https://www.example.com'), ('another', 'https://www.example.com/another'),('oneMore','https://site.com')]
+        print(linkExtractor.extract_markdown_links_split(text))
 
 
 if __name__ == "__main__":

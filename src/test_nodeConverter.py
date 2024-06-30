@@ -82,8 +82,6 @@ class TestNodeConverter(unittest.TestCase):
             TextNode("Another node with ", "text"),
             TextNode("some italic words", "italic"),
             TextNode(" inside of it", "text"),]
-        for node in secondNewNodes:
-            print(node)
         assert secondNewNodes == expectedNodes
         
     def test_splitDelimDoubleParseSingle(self):
@@ -98,7 +96,38 @@ class TestNodeConverter(unittest.TestCase):
             TextNode(" words words but also some ", "text"),            
             TextNode("italic words", "italic"),
             TextNode(" yay!", "text")]
-        assert secondNewNodes == expectedNodes                 
+        assert secondNewNodes == expectedNodes  
+
+    def test_splitLink(self):
+        nodeList = [TextNode("This is text with a [link](https://www.example.com) and [another](https://www.example.com/another) and [oneMore](https://site.com)", "text")]
+        converter = NodeConverter
+        newNodes = converter.split_nodes_links(nodeList)
+        expectedNodes = [
+            TextNode("This is text with a " , "text"), 
+            TextNode("link", "link", "https://www.example.com"), 
+            TextNode(" and " , "text"),
+            TextNode("another", "link", "https://www.example.com/another"),
+            TextNode(" and ", "text"), 
+            TextNode("oneMore", "link", "https://site.com")
+        ]
+        assert newNodes == expectedNodes
+
+    def test_splitLink(self):
+        nodeList = [TextNode("[link](https://www.example.com) and [another](https://www.example.com/another) and [oneMore](https://site.com)", "text")]
+        converter = NodeConverter
+        newNodes = converter.split_nodes_links(nodeList)
+        expectedNodes = [ 
+            TextNode("link", "link", "https://www.example.com"), 
+            TextNode(" and " , "text"),
+            TextNode("another", "link", "https://www.example.com/another"),
+            TextNode(" and ", "text"), 
+            TextNode("oneMore", "link", "https://site.com")
+        ]
+        for node in newNodes:
+            print(node)
+        assert newNodes == expectedNodes
+
+
 
 
 if __name__ == "__main__":

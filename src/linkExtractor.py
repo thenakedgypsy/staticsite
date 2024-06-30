@@ -8,3 +8,12 @@ class LinkExtractor():
     def extract_markdown_links(text): #extracts markdown links instead of images. It should return tuples of anchor text and URLs.
         matches = re.findall(r"\[(.*?)\]\((.*?)\)", text)
         return matches
+    
+    def extract_markdown_images_split(text):
+        matches = re.split(r"!\[(.*?)\]\((.*?)\)", text)
+        return matches 
+
+    def extract_markdown_links_split(text): #extracts markdown links instead of images. It should return tuples of anchor text and URLs.
+        matches = re.split(r"\[(.*?)\]\((.*?)\)", text)
+        return matches
+           
