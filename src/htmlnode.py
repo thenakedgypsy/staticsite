@@ -49,7 +49,10 @@ class LeafNode(HTMLNode): #node without any children
         if htmlProps == "":
             return f"<{self.tag}>{self.value}</{self.tag}>"
         else:
-            return f"<{self.tag}>{htmlProps}>{self.value}</{self.tag}>"
+            if self.tag == "a":
+                return f"<{self.tag}{htmlProps}>{self.value}</{self.tag}>"
+            else:
+                return f"<{self.tag}>{htmlProps}>{self.value}</{self.tag}>"
         
 class ParentNode(HTMLNode): #node that will have either more parentnodes or leafnodes as children
     def __init__(self,tag,children,props=None):

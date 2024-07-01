@@ -1,4 +1,5 @@
 from htmlnode import LeafNode, ParentNode
+from nodeConverter import NodeConverter
 
 class MarkdownConverter():
      
@@ -97,5 +98,41 @@ class MarkdownConverter():
             cleanLines.append(LeafNode("p",line[1:].strip()))
         node = ParentNode("blockquote",cleanLines)
         return node
+
+    def paraToNode(self,block):
+        if block != "":
+            node = LeafNode("p", block)
+        return node
+
+    def markdownToHTMLNode(self, markdown):
+        converter = NodeConverter()
+        blocks = self.markdownToBlock(markdown)
+        newNodes = []
+        for block in blocks:
+            if type(self.getBlockType(block)) is tuple:
+                newNodes.append(self.headingToNode(block))
+            else:
+                if self.getBlockType(block) == "paragraph":
+                    newNodes.append(self.paraToNode(block))
+                elif self.getBlockType(block) == "code":
+                    newNodes.append(self.codeToNode(block))
+                elif self.getBlockType(block) == "unordered_list":
+                    newNodes.append(self.uListToNode(block))              
+                elif self.getBlockType(block) == "ordered_list":
+                    newNodes.append(self.oListToNode(block))
+                elif self.getBlockType(block) == "quote":
+                    newNodes.append(self.quoteToNode(block))
+        node = ParentNode("div",newNodes)
+        preHTML = node.to_html()
+        textNodes = converter.text_to_textnodes(preHTML)
+        htmlNodes = []
+        for node in textNodes:
+            htmlNodes.append(converter.text_node_to_html_node(node))
+        htmlString = ""
+        for node in htmlNodes:
+            htmlString += node.to_html()
+        return htmlString
+
         
-            
+
+        

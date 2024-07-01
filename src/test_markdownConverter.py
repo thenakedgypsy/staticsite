@@ -123,7 +123,33 @@ This is a paragraph of text. It has some **bold** and *italic* words inside of i
                                                 LeafNode("p","That goes on for some lines"),
                                                 LeafNode("p","who even talks that long")])
         node = converter.quoteToNode(block)
-        assert node == expectedNode  
+        assert node == expectedNode 
+
+    def test_blockToHTMLNode(self):
+        converter = MarkdownConverter()
+        markdown = """# Heading Level 1
+
+## Heading Level 2
+
+This is a paragraph with some **bold text** and some *italic text*.
+
+Another paragraph with a [link](http://example.com).
+
+> This is a blockquote.
+>
+> It can span multiple lines.
+
+* Unordered list item 1
+* Unordered list item 2
+* Unordered list item 3
+
+1. Ordered list item 1
+2. Ordered list item 2
+3. Ordered list item 3""" 
+
+        print(converter.markdownToHTMLNode(markdown))
+
+        
 
 
 if __name__ == "__main__":
