@@ -1,4 +1,4 @@
-class HTMLNode():
+class HTMLNode(): #represents a node that will convert to html
     def __init__(self,tag,value,children,props):
         self.tag = tag
         self.value = value
@@ -14,23 +14,35 @@ class HTMLNode():
     def to_html(self):
         raise NotImplementedError()
     
-    def props_to_html(self):
+    def props_to_html(self): #converts properties dict to html
         propString = ""
         for key in self.props:
             propString += f' {key}="{self.props[key]}"'
         return propString
 
     def __repr__(self):
-        return f"HTMLNode({self.tag}, {self.value}, {self.children}, {self.props})"
+        toPrint =  f"HTMLNode({self.tag}, {self.value}" 
+        if self.children != None:
+            toPrint += f", {self.children}"
+        if self.props !=None:
+            toPrint += f", {self.props}"
+        toPrint += ")"
+        return toPrint
     
-class LeafNode(HTMLNode):
+    def __eq__(self,other):
+        if self.tag == other.tag and self.value == other.value and self.children == other.children and self.props == other.props:
+            return True
+        else:
+            return False
+    
+class LeafNode(HTMLNode): #node without any children
     def __init__(self,tag,value,props=None):
         super().__init__(tag,value,None,props)
         if self.value == None:
             raise ValueError("A LeafNode requires a value")
 
 
-    def to_html(self):
+    def to_html(self): #converts itself to html
         htmlProps = self.props_to_html()
         if self.tag == None:
             return self.value
@@ -39,16 +51,15 @@ class LeafNode(HTMLNode):
         else:
             return f"<{self.tag}>{htmlProps}>{self.value}</{self.tag}>"
         
-class ParentNode(HTMLNode):
+class ParentNode(HTMLNode): #node that will have either more parentnodes or leafnodes as children
     def __init__(self,tag,children,props=None):
         super().__init__(tag,None,children,props)
         if self.tag == None:
-            raise ValueError("A ParentNode requires a")
+            raise ValueError("A ParentNode requires a tag")
         if len(self.children) == 0:
             raise ValueError("A ParentNode requires children")
 
     def to_html(self):
-        
         if self.props == None:
             htmlString = f"<{self.tag}>"
         else:
