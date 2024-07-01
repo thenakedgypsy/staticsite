@@ -145,15 +145,38 @@ class TestNodeConverter(unittest.TestCase):
                         TextNode(" and another ", "text"),
                         TextNode("second image", "image", "https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/3elNhQu.png", "second image")]
         assert newNodes == expectedNodes
-    
+
+
+#test images in links and vice versa 
+   
     def test_textToNode(self):
         converter = NodeConverter()
         text = "This is **text** with an *italic* word and a `code block` and an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and a [link](https://boot.dev)"
         newNodes = converter.text_to_textnodes(text)
-        for node in newNodes:
-            print(node)
+        expectedNodes = [TextNode('This is ', 'text'),
+                        TextNode('text', 'bold'),
+                        TextNode(' with an ', 'text'),
+                        TextNode('italic', 'italic'),
+                        TextNode(' word and a ', 'text'),
+                        TextNode('code block', 'code'),
+                        TextNode(' and an ', 'text'),
+                        TextNode('image', 'image', 'https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png', 'image'),
+                        TextNode(' and a ', 'text'),
+                        TextNode('link', 'link', 'https://boot.dev')]
+        assert newNodes == expectedNodes
 
-#test images in links and vice versa
+    def test_markdownToBlocks(self):
+        converter = NodeConverter()
+        markdown = """# This is a heading
+
+This is a paragraph of text. It has some **bold** and *italic* words inside of it.
+
+* This is a list item
+* This is another list item"""
+
+        converter.markdownToBlock(markdown)
+
+
 
 if __name__ == "__main__":
     unittest.main()
