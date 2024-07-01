@@ -13,13 +13,13 @@ class TextNode():
             return False
 
     def __repr__(self):
-        returnString = f"TextNode({self.text}"
+        returnString = f"TextNode('{self.text}'"
         if self.textType != None or self.textType != "":
-            returnString += f", {self.textType}"
+            returnString += f", '{self.textType}'"
         if self.url != None:
-            returnString += f", {self.url}"
+            returnString += f", '{self.url}'"
         if self.alt != None:
-            returnString += f", {self.alt}"
+            returnString += f", '{self.alt}'"
         returnString += f")"
         return returnString
         #return f"TextNode({self.text},{self.textType},{self.url},{self.alt})"

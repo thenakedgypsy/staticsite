@@ -100,7 +100,7 @@ class TestNodeConverter(unittest.TestCase):
 
     def test_splitLink(self):
         nodeList = [TextNode("This is text with a [link](https://www.example.com) and [another](https://www.example.com/another) and [oneMore](https://site.com)", "text")]
-        converter = NodeConverter
+        converter = NodeConverter()
         newNodes = converter.split_nodes_links(nodeList)
         expectedNodes = [
             TextNode("This is text with a " , "text"), 
@@ -108,27 +108,52 @@ class TestNodeConverter(unittest.TestCase):
             TextNode(" and " , "text"),
             TextNode("another", "link", "https://www.example.com/another"),
             TextNode(" and ", "text"), 
-            TextNode("oneMore", "link", "https://site.com")
-        ]
+            TextNode("oneMore", "link", "https://site.com")]
         assert newNodes == expectedNodes
 
     def test_splitLinkStart(self):
         nodeList = [TextNode("[link](https://www.example.com) and [another](https://www.example.com/another) and [oneMore](https://site.com)", "text")]
-        converter = NodeConverter
+        converter = NodeConverter()
         newNodes = converter.split_nodes_links(nodeList)
         expectedNodes = [ 
             TextNode("link", "link", "https://www.example.com"), 
             TextNode(" and " , "text"),
             TextNode("another", "link", "https://www.example.com/another"),
             TextNode(" and ", "text"), 
-            TextNode("oneMore", "link", "https://site.com")
-        ]
-        for node in newNodes:
-            print(node)
+            TextNode("oneMore", "link", "https://site.com")]
         assert newNodes == expectedNodes
 
+    def test_splitLinkEndText(self):
+        nodeList = [TextNode("[link](https://www.example.com) and [another](https://www.example.com/another) and [oneMore](https://site.com) and then more text", "text")]
+        converter = NodeConverter()
+        newNodes = converter.split_nodes_links(nodeList)
+        expectedNodes = [ 
+            TextNode("link", "link", "https://www.example.com"), 
+            TextNode(" and " , "text"),
+            TextNode("another", "link", "https://www.example.com/another"),
+            TextNode(" and ", "text"), 
+            TextNode("oneMore", "link", "https://site.com"),
+            TextNode(" and then more text", "text")]
+        assert newNodes == expectedNodes
 
+    def test_splitImage(self):
+        nodeList = [TextNode("This is text with an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and another ![second image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/3elNhQu.png)", "text")]
+        converter = NodeConverter()
+        newNodes = converter.split_nodes_images(nodeList)
+        expectedNodes = [TextNode("This is text with an ","text"),
+                        TextNode("image", "image", "https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png", "image"),
+                        TextNode(" and another ", "text"),
+                        TextNode("second image", "image", "https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/3elNhQu.png", "second image")]
+        assert newNodes == expectedNodes
+    
+    def test_textToNode(self):
+        converter = NodeConverter()
+        text = "This is **text** with an *italic* word and a `code block` and an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and a [link](https://boot.dev)"
+        newNodes = converter.text_to_textnodes(text)
+        for node in newNodes:
+            print(node)
 
+#test images in links and vice versa
 
 if __name__ == "__main__":
     unittest.main()
