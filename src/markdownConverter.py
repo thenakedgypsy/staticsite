@@ -104,7 +104,7 @@ class MarkdownConverter():
             node = LeafNode("p", block)
         return node
 
-    def markdownToHTMLNode(self, markdown):
+    def markdownToHTML(self, markdown):
         converter = NodeConverter()
         blocks = self.markdownToBlock(markdown)
         newNodes = []

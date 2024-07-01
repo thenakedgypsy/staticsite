@@ -147,7 +147,7 @@ Another paragraph with a [link](http://example.com).
 2. Ordered list item 2
 3. Ordered list item 3""" 
 
-        print(converter.markdownToHTMLNode(markdown))
+        print(converter.markdownToHTML(markdown))
 
         
 
