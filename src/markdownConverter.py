@@ -5,7 +5,7 @@ import shutil
 
 class MarkdownConverter():
      
-    def markdownToBlock(self,markdown):
+    def markdownToBlock(self,markdown): # converts markdown in blocks of text
         blocks = markdown.split("\n\n")
         cleanBlocks = []
         for block in blocks:
@@ -14,7 +14,7 @@ class MarkdownConverter():
                 cleanBlocks.append(block)
         return cleanBlocks
      
-    def getBlockType(self,block):
+    def getBlockType(self,block): # returns the type of block
         if block.startswith("#"): #if heading
             count = 0
             for char in block:
@@ -59,19 +59,19 @@ class MarkdownConverter():
         else:
             return "paragraph"   #otherwise its a paragraph  
     
-    def headingToNode(self,block):
+    def headingToNode(self,block): #coverts heading blocks into htmlnodes
         headingLevel = self.getBlockType(block)[1]
         content = block[headingLevel+1:].strip()
         node = LeafNode(f"h{headingLevel}", content)         
         return node
 
-    def codeToNode(self,block):
+    def codeToNode(self,block): #converts code blocks into htmlnodes
         content = block[3:-3].strip()
         innerNode = LeafNode("code",content)
         outerNode = ParentNode("pre",children=[innerNode])
         return outerNode
 
-    def uListToNode(self,block):
+    def uListToNode(self,block):#converts unordered lists into htmlnodes
         splitBlock = block.split("\n")
         cleanLines = []
         for line in splitBlock:
@@ -79,7 +79,7 @@ class MarkdownConverter():
         node = ParentNode("ul",cleanLines)
         return node
     
-    def oListToNode(self,block):
+    def oListToNode(self,block):#converts ordered lists into htmlnodes
         splitBlock = block.split("\n")
         cleanLines = []
         for line in splitBlock:
@@ -93,7 +93,7 @@ class MarkdownConverter():
         node = ParentNode("ol",cleanLines)
         return node
     
-    def quoteToNode(self,block):
+    def quoteToNode(self,block):#converts qutoe blocks into htmlnodes
         splitBlock = block.split("\n")
         cleanLines = []
         for line in splitBlock:
@@ -101,12 +101,12 @@ class MarkdownConverter():
         node = ParentNode("blockquote",cleanLines)
         return node
 
-    def paraToNode(self,block):
+    def paraToNode(self,block): #converts paragraph blocks into htmlnodes
         if block != "":
             node = LeafNode("p", block)
         return node
 
-    def markdownToHTML(self, markdown):
+    def markdownToHTML(self, markdown): #takes a markdown argument and returns htmlstring
         converter = NodeConverter()
         blocks = self.markdownToBlock(markdown)
         newNodes = []
@@ -135,7 +135,7 @@ class MarkdownConverter():
             htmlString += node.to_html()
         return htmlString
    
-    def extract_title(self,markdown):
+    def extract_title(self,markdown): #extracts the first heading from some markdown
         blocks = self.markdownToBlock(markdown)
         for block in blocks:
             if self.getBlockType(block) == ("heading", 1):

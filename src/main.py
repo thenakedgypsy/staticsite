@@ -1,7 +1,8 @@
 from generator import PageGenerator
 
 def main():
+    
     generator = PageGenerator()
-    generator.generatePage("content/index.md", "template.html" , "public/index.html")
+    generator.generatePagesRecursive("content", "template.html" , "public")
 
 main()

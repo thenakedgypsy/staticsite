@@ -2,10 +2,9 @@ import os
 import shutil
 from markdownConverter import MarkdownConverter
 
-
 class PageGenerator():
 
-    def copyToDir(self, fromPath,toPath):
+    def copyToDir(self, fromPath,toPath): #copies files to a directory
         if os.path.exists(toPath):
             shutil.rmtree(toPath)
         if os.path.exists(fromPath): 
@@ -22,11 +21,13 @@ class PageGenerator():
         else:
             raise Exception("No Such Path")        
         
-    def generatePage(self,fromPath,templatePath,toPath):
-        base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-        fromPath = os.path.join(base_dir,fromPath)
-        templatePath = os.path.join(base_dir, templatePath)
-        toPath = os.path.join(base_dir, toPath)
+    def generatePage(self,fromPath,templatePath,toPath): #pushes .mds  to .htmls via path
+        filename = os.path.basename(fromPath)
+        name, ext = os.path.splitext(filename)
+        newFilename = f"{name}.html"
+        toPath = os.path.join(toPath, newFilename)
+        if os.path.exists(toPath):
+            os.remove(toPath)
         print(f"Generating page from {fromPath} to {toPath} using {templatePath}")
         with open(fromPath, "r") as file:
             markdown = file.read()
@@ -38,5 +39,25 @@ class PageGenerator():
         filledTemplate = template.replace("{{ Title }}", title).replace("{{ Content }}", html)
         with open(toPath, "w") as dest:
             dest.write(filledTemplate)
+
+    def generatePagesRecursive(self,fromPath,templatePath,toPath): # calls the above function recursively on a file structure
+        base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+        dirPathContent = os.path.join(base_dir,fromPath)
+        templatePath = os.path.join(base_dir, templatePath)
+        destDirPath = os.path.join(base_dir, toPath)
+        dirList = os.listdir(dirPathContent)
+        for item in dirList:
+            pathToItem = os.path.join(dirPathContent, item)
+            if os.path.isfile(pathToItem):
+                if item.endswith(".md"):
+                    self.generatePage(pathToItem,templatePath,destDirPath)
+            elif os.path.isdir(pathToItem):
+                newToPath = os.path.join(destDirPath, item)
+                if not os.path.exists(newToPath):
+                    os.makedirs(newToPath)
+                self.generatePagesRecursive(pathToItem,templatePath,newToPath)
+
+
+
 
 

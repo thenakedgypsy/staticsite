@@ -43,7 +43,7 @@ class NodeConverter: # converter class - converts nodes
                     i += 1
         return newNodes
         
-    def split_nodes_links(self, old_nodes):
+    def split_nodes_links(self, old_nodes): #splits textnodes with links into a list of nodes 
         linkExtractor = LinkExtractor
         newNodes = []
         for node in old_nodes:
@@ -64,7 +64,7 @@ class NodeConverter: # converter class - converts nodes
                     i +=1                
         return newNodes
                     
-    def split_nodes_images(self, old_nodes):
+    def split_nodes_images(self, old_nodes):#splits textnodes with images into a list of nodes 
         linkExtractor = LinkExtractor
         newNodes = []
         for node in old_nodes:
@@ -85,7 +85,7 @@ class NodeConverter: # converter class - converts nodes
                     i +=1                
         return newNodes
         
-    def text_to_textnodes(self, text):
+    def text_to_textnodes(self, text): #turns a text string into textnodes with correct types
         firstNode = TextNode(text,"text")
         firstNodes = [firstNode]
         secondNodes = self.split_nodes_images(firstNodes)

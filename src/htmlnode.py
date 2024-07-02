@@ -11,7 +11,7 @@ class HTMLNode(): #represents a node that will convert to html
         else:
             self.props = props
 
-    def to_html(self):
+    def to_html(self): #super
         raise NotImplementedError()
     
     def props_to_html(self): #converts properties dict to html
@@ -20,7 +20,7 @@ class HTMLNode(): #represents a node that will convert to html
             propString += f' {key}="{self.props[key]}"'
         return propString
 
-    def __repr__(self):
+    def __repr__(self): #print function
         toPrint =  f"HTMLNode({self.tag}, {self.value}" 
         if self.children != None:
             toPrint += f", {self.children}"
@@ -41,8 +41,7 @@ class LeafNode(HTMLNode): #node without any children
         if self.value == None:
             raise ValueError("A LeafNode requires a value")
 
-
-    def to_html(self): #converts itself to html
+    def to_html(self): #converts itself to html string
         htmlProps = self.props_to_html()
         if self.tag == None:
             return self.value
@@ -62,7 +61,7 @@ class ParentNode(HTMLNode): #node that will have either more parentnodes or leaf
         if len(self.children) == 0:
             raise ValueError("A ParentNode requires children")
 
-    def to_html(self):
+    def to_html(self): #converts self to a html string
         if self.props == None:
             htmlString = f"<{self.tag}>"
         else:
