@@ -1,13 +1,7 @@
-from textnode import TextNode
-import os
-import shutil
-import unittest
-
-
-
-
+from generator import PageGenerator
 
 def main():
-    pass
+    generator = PageGenerator()
+    generator.generatePage("content/index.md", "template.html" , "public/index.html")
 
 main()

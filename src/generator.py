@@ -1,8 +1,9 @@
 import os
 import shutil
+from markdownConverter import MarkdownConverter
 
 
-class pageGenerator():
+class PageGenerator():
 
     def copyToDir(self, fromPath,toPath):
         if os.path.exists(toPath):
@@ -27,3 +28,15 @@ class pageGenerator():
         templatePath = os.path.join(base_dir, templatePath)
         toPath = os.path.join(base_dir, toPath)
         print(f"Generating page from {fromPath} to {toPath} using {templatePath}")
+        with open(fromPath, "r") as file:
+            markdown = file.read()
+        with open(templatePath, "r") as file:
+            template = file.read()
+        converter = MarkdownConverter()
+        title = converter.extract_title(markdown)
+        html = converter.markdownToHTML(markdown)
+        filledTemplate = template.replace("{{ Title }}", title).replace("{{ Content }}", html)
+        with open(toPath, "w") as dest:
+            dest.write(filledTemplate)
+
+

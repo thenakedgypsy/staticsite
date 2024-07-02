@@ -21,7 +21,7 @@ class TestNodeConverter(unittest.TestCase):
         textNode = TextNode("Some text","link","www.google.com",)
         converter = NodeConverter()
         leafNode = converter.text_node_to_html_node(textNode)
-        assert leafNode.to_html() == '<a> href="www.google.com">Some text</a>'
+        assert leafNode.to_html() == '<a href="www.google.com">Some text</a>'
 
     def test_italicWithAlt(self):
         textNode = TextNode("This has alt text","italic", None,"alt text")
@@ -164,18 +164,6 @@ class TestNodeConverter(unittest.TestCase):
                         TextNode(' and a ', 'text'),
                         TextNode('link', 'link', 'https://boot.dev')]
         assert newNodes == expectedNodes
-
-    def test_markdownToBlocks(self):
-        converter = NodeConverter()
-        markdown = """# This is a heading
-
-This is a paragraph of text. It has some **bold** and *italic* words inside of it.
-
-* This is a list item
-* This is another list item"""
-
-        converter.markdownToBlock(markdown)
-
 
 
 if __name__ == "__main__":
