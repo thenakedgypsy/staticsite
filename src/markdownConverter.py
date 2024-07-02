@@ -122,7 +122,7 @@ class MarkdownConverter():
                     newNodes.append(self.oListToNode(block))
                 elif self.getBlockType(block) == "quote":
                     newNodes.append(self.quoteToNode(block))
-        node = ParentNode("div",newNodes)
+        node = ParentNode("div",newNodes)   
         preHTML = node.to_html()
         textNodes = converter.text_to_textnodes(preHTML)
         htmlNodes = []
@@ -133,6 +133,10 @@ class MarkdownConverter():
             htmlString += node.to_html()
         return htmlString
 
-        
+    def extract_title(self,markdown):
+        blocks = self.markdownToBlock(markdown)
+        for block in blocks:
+            if self.getBlockType(block) == ("heading", 1):
+                return block[2:].strip()
 
         

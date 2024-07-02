@@ -95,9 +95,4 @@ class NodeConverter: # converter class - converts nodes
         finalNodes = self.split_nodes_delimiter(fithNodes,"`","code")
         return finalNodes
     
-    def markdownToBlock(self,markdown):
-        blocks = markdown.split("\n\n")
-        for block in blocks:
-            if block == "":
-                blocks.remove(block)
-        return blocks
+

@@ -1,8 +1,13 @@
 from textnode import TextNode
-from nodeConverter import TextToNodeConverter
+import os
+import shutil
+import unittest
+
+
+
+
 
 def main():
-    node = TextNode("text goes here","italic","url.net")
-    print(node)
+    pass
 
 main()
